@@ -38,53 +38,54 @@ class Food:
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag="food")
 
 
-def next_turn(snake, food ):
+def next_turn(snake, food):
 
-    x, y = snake.coordinates[0]
+    try:
+        x, y = snake.coordinates[0]
 
-    if direction == "up":
-        y -= SPACE_SIZE
-    elif direction == "down":
-        y += SPACE_SIZE
-    elif direction == "left":
-        x -= SPACE_SIZE
-    elif direction == "right":
-        x += SPACE_SIZE
+        if direction == "up":
+            y -= SPACE_SIZE
+        elif direction == "down":
+            y += SPACE_SIZE
+        elif direction == "left":
+            x -= SPACE_SIZE
+        elif direction == "right":
+            x += SPACE_SIZE
 
-    snake.coordinates.insert(0, (x, y))
+        snake.coordinates.insert(0, (x, y))
 
-    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
+        square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR)
 
-    snake.squares.insert(0, square)
+        snake.squares.insert(0, square)
 
-    if x == food.coordinates[0] and y == food.coordinates[1]:
+        if x == food.coordinates[0] and y == food.coordinates[1]:
 
-        global score
+            global score
 
-        score += 1
+            score += 1
 
-        label.config(text="Score:{}".format(score))
+            label.config(text="Score:{}".format(score))
 
-        canvas.delete("food")
+            canvas.delete("food")
 
-        food = Food()
+            food = Food()
 
-    else:
+        else:
 
-        del snake.coordinates[-1]
+            del snake.coordinates[-1]
 
-        canvas.delete(snake.squares[-1])
+            canvas.delete(snake.squares[-1])
 
-        del snake.squares[-1]
+            del snake.squares[-1]
 
-    if check_collisions(snake):
-        game_over()
+        if check_collisions(snake):
+            game_over()
 
-    else:
-        window.after(SPEED, next_turn, snake, food)
+        else:
+            window.after(SPEED, next_turn, snake, food)
 
-except Exception as e:
-print("An error occured:",e)
+    except Exception as e:
+        print("An error occurred:", e)
 
 
 def change_direction(new_direction):
@@ -125,7 +126,7 @@ def game_over():
 
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2,
-                       font=('consolas',70), text="GAME OVER", fill="red", tag="gameover")
+                       font=('consolas', 70), text="GAME OVER", fill="red", tag="gameover")
 
 
 window = Tk()
