@@ -83,6 +83,9 @@ def next_turn(snake, food ):
     else:
         window.after(SPEED, next_turn, snake, food)
 
+except Exception as e:
+print("An error occured:",e)
+
 
 def change_direction(new_direction):
 
